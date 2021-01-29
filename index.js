@@ -67,6 +67,64 @@ function factorial(n) {
   }
   return n * factorial(--n);
 }
+
+function getOutOfMaze(maze, path = [], row = 0, column = 0) {
+  // await new Promise((resolve) => setTimeout(resolve, 500));
+  // console.clear();
+  // console.table(maze);
+  // base case
+  if (maze[row][column] === "e") {
+    return `Path to exit: ${path.join("")}`;
+  }
+  // right
+  if (column + 1 < maze[row].length && maze[row][column + 1] !== "*") {
+    path.push("R");
+    maze[row][column] = "*";
+    return getOutOfMaze(maze, path, row, column + 1);
+  }
+  // down
+  if (row + 1 < maze.length && maze[row + 1][column] !== "*") {
+    path.push("D");
+    maze[row][column] = "*";
+    return getOutOfMaze(maze, path, row + 1, column);
+  }
+  // left
+  if (column - 1 >= 0 && maze[row][column - 1] !== "*") {
+    path.push("L");
+    maze[row][column] = "*";
+    return getOutOfMaze(maze, path, row, column - 1);
+  }
+  // up
+  if (row - 1 >= 0 && maze[row - 1][column] !== "*") {
+    path.push("U");
+    maze[row][column] = "*";
+    return getOutOfMaze(maze, path, row - 1, column);
+  }
+  // dead end
+  let prevRow, prevColumn;
+  switch (path[path.length - 1]) {
+    case "R":
+      prevRow = row;
+      prevColumn = column - 1;
+      break;
+    case "D":
+      prevRow = row - 1;
+      prevColumn = column;
+      break;
+    case "L":
+      prevRow = row;
+      prevColumn = column + 1;
+      break;
+    case "U":
+      prevRow = row + 1;
+      prevColumn = column;
+      break;
+  }
+  path.pop();
+  maze[prevRow][prevColumn] = " ";
+  maze[row][column] = "*";
+  return getOutOfMaze(maze, path, prevRow, prevColumn);
+}
 // 1)
 // jumpSheep(3);
 // 2)
@@ -93,3 +151,32 @@ function factorial(n) {
 // 7)
 // console.log(factorial(5));
 // 8)
+let mySmallMaze = [
+  [" ", " ", " "],
+  [" ", "*", " "],
+  [" ", " ", "e"],
+];
+let maze = [
+  [" ", " ", " ", "*", " ", " ", " "],
+  ["*", "*", " ", "*", " ", "*", " "],
+  [" ", " ", " ", " ", " ", " ", " "],
+  [" ", "*", "*", "*", "*", "*", "*"],
+  [" ", " ", " ", " ", " ", " ", "e"],
+];
+let nicksMaze = [
+  [" ", " ", " ", " ", "*", " ", " ", " ", " ", " ", " "],
+  [" ", " ", " ", " ", "*", " ", " ", " ", " ", " ", " "],
+  ["*", " ", "*", " ", " ", " ", "*", "*", "*", "*", " "],
+  ["*", " ", "*", "*", "*", "*", "*", " ", " ", "*", " "],
+  [" ", " ", " ", " ", " ", " ", " ", " ", " ", "*", " "],
+  ["*", "*", "*", "*", " ", "*", "*", "*", " ", " ", " "],
+  [" ", " ", " ", "*", " ", " ", " ", " ", " ", "*", " "],
+  [" ", "*", " ", " ", " ", "*", "*", "*", " ", "*", " "],
+  [" ", "*", "*", "*", " ", " ", " ", "*", " ", "*", " "],
+  [" ", "*", " ", " ", " ", "*", " ", "*", " ", "*", " "],
+  [" ", "*", " ", "*", " ", "*", " ", "*", "*", "*", "*"],
+  [" ", " ", " ", "*", " ", "*", " ", " ", " ", " ", "e"],
+];
+console.log(getOutOfMaze(mySmallMaze));
+console.log(getOutOfMaze(maze));
+console.log(getOutOfMaze(nicksMaze));
