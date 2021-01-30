@@ -211,6 +211,26 @@ function getAllPathsOutOfMaze(maze, allPaths, winningPaths) {
   });
   return getAllPathsOutOfMaze(maze, newPossiblePaths, winningPaths);
 }
+
+function allAnagrams(string) {
+  const results = {};
+
+  function anagrammer(anagram, remainder) {
+    if (remainder === "") {
+      results[anagram] = "";
+      return;
+    }
+
+    for (let i = 0; i < remainder.length; i++) {
+      anagrammer(
+        anagram + remainder.charAt(i),
+        remainder.slice(0, i) + remainder.slice(i + 1)
+      );
+    }
+  }
+  anagrammer("", string);
+  return Object.keys(results).join("\n");
+}
 // 1)
 // jumpSheep(3);
 // 2)
@@ -237,32 +257,34 @@ function getAllPathsOutOfMaze(maze, allPaths, winningPaths) {
 // 7)
 // console.log(factorial(5));
 // 8)
-let mySmallMaze = [
-  [" ", " ", " "],
-  [" ", "*", " "],
-  [" ", " ", "e"],
-];
-let maze = [
-  [" ", " ", " ", "*", " ", " ", " "],
-  ["*", "*", " ", "*", " ", "*", " "],
-  [" ", " ", " ", " ", " ", " ", " "],
-  [" ", "*", "*", "*", "*", "*", " "],
-  [" ", " ", " ", " ", " ", " ", "e"],
-];
-let nicksMaze = [
-  [" ", " ", " ", " ", "*", " ", " ", " ", " ", " ", " "],
-  [" ", " ", " ", " ", "*", " ", " ", " ", " ", " ", " "],
-  ["*", " ", "*", " ", " ", " ", "*", "*", "*", "*", " "],
-  ["*", " ", "*", "*", "*", "*", "*", " ", " ", "*", " "],
-  [" ", " ", " ", " ", " ", " ", " ", " ", " ", "*", " "],
-  ["*", "*", "*", "*", " ", "*", "*", "*", " ", " ", " "],
-  [" ", " ", " ", "*", " ", " ", " ", " ", " ", "*", " "],
-  [" ", "*", " ", " ", " ", "*", "*", "*", " ", "*", " "],
-  [" ", "*", "*", "*", " ", " ", " ", "*", " ", "*", " "],
-  [" ", "*", " ", " ", " ", "*", " ", "*", " ", "*", " "],
-  [" ", "*", " ", "*", " ", "*", " ", "*", "*", "*", "*"],
-  [" ", " ", " ", "*", " ", "*", " ", " ", " ", " ", "e"],
-];
-console.log(getAllPathsOutOfMaze(mySmallMaze));
-console.log(getAllPathsOutOfMaze(maze));
+// let mySmallMaze = [
+//   [" ", " ", " "],
+//   [" ", "*", " "],
+//   [" ", " ", "e"],
+// ];
+// let maze = [
+//   [" ", " ", " ", "*", " ", " ", " "],
+//   ["*", "*", " ", "*", " ", "*", " "],
+//   [" ", " ", " ", " ", " ", " ", " "],
+//   [" ", "*", "*", "*", "*", "*", " "],
+//   [" ", " ", " ", " ", " ", " ", "e"],
+// ];
+// let nicksMaze = [
+//   [" ", " ", " ", " ", "*", " ", " ", " ", " ", " ", " "],
+//   [" ", " ", " ", " ", "*", " ", " ", " ", " ", " ", " "],
+//   ["*", " ", "*", " ", " ", " ", "*", "*", "*", "*", " "],
+//   ["*", " ", "*", "*", "*", "*", "*", " ", " ", "*", " "],
+//   [" ", " ", " ", " ", " ", " ", " ", " ", " ", "*", " "],
+//   ["*", "*", "*", "*", " ", "*", "*", "*", " ", " ", " "],
+//   [" ", " ", " ", "*", " ", " ", " ", " ", " ", "*", " "],
+//   [" ", "*", " ", " ", " ", "*", "*", "*", " ", "*", " "],
+//   [" ", "*", "*", "*", " ", " ", " ", "*", " ", "*", " "],
+//   [" ", "*", " ", " ", " ", "*", " ", "*", " ", "*", " "],
+//   [" ", "*", " ", "*", " ", "*", " ", "*", "*", "*", "*"],
+//   [" ", " ", " ", "*", " ", "*", " ", " ", " ", " ", "e"],
+// ];
+// console.log(getAllPathsOutOfMaze(mySmallMaze));
+// console.log(getAllPathsOutOfMaze(maze));
 // console.log(getAllPathsOutOfMaze(nicksMaze));
+// 9)
+console.log(allAnagrams("east"));
