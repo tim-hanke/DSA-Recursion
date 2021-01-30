@@ -125,6 +125,92 @@ function getOutOfMaze(maze, path = [], row = 0, column = 0) {
   maze[row][column] = "*";
   return getOutOfMaze(maze, path, prevRow, prevColumn);
 }
+
+function getAllPathsOutOfMaze(maze, allPaths, winningPaths) {
+  allPaths = allPaths || [{ path: [], location: [0, 0], prevLocations: [] }];
+  winningPaths = winningPaths || [];
+  // await new Promise((resolve) => setTimeout(resolve, 500));
+  // console.clear();
+  // console.table(maze);
+  // base case - we've exhausted every possible path
+  if (allPaths.length === 0) {
+    return winningPaths
+      .map((path) => `Path to exit: ${path.path.join("")}`)
+      .join("\n");
+  }
+
+  function validMove(row, column, prevLocations) {
+    if (
+      row >= 0 &&
+      column >= 0 &&
+      row < maze.length &&
+      column < maze[0].length &&
+      maze[row][column] !== "*" &&
+      haventBeenHere(prevLocations, [row, column])
+    ) {
+      return true;
+    }
+    return false;
+  }
+
+  function haventBeenHere(prevLocations, newLocation) {
+    let openSquare = true;
+    prevLocations.map((loc) => {
+      if (loc[0] === newLocation[0] && loc[1] === newLocation[1]) {
+        openSquare = false;
+      }
+    });
+    return openSquare;
+  }
+
+  function isExit(location, exit) {
+    return location[0] === exit[0] && location[1] === exit[1];
+  }
+
+  const newPossiblePaths = [];
+
+  allPaths.map((path) => {
+    const row = path.location[0];
+    const column = path.location[1];
+    if (isExit(path.location, [maze.length - 1, maze[0].length - 1])) {
+      winningPaths.push(path);
+    } else {
+      // right
+      if (validMove(row, column + 1, path.prevLocations)) {
+        newPossiblePaths.push({
+          path: [...path.path, "R"],
+          location: [row, column + 1],
+          prevLocations: [...path.prevLocations, path.location],
+        });
+      }
+      // down
+      if (validMove(row + 1, column, path.prevLocations)) {
+        newPossiblePaths.push({
+          path: [...path.path, "D"],
+          location: [row + 1, column],
+          prevLocations: [...path.prevLocations, path.location],
+        });
+      }
+      // left
+      if (validMove(row, column - 1, path.prevLocations)) {
+        newPossiblePaths.push({
+          path: [...path.path, "L"],
+          location: [row, column - 1],
+          prevLocations: [...path.prevLocations, path.location],
+        });
+      }
+      // up
+      if (validMove(row - 1, column, path.prevLocations)) {
+        newPossiblePaths.push({
+          path: [...path.path, "U"],
+          location: [row - 1, column],
+          prevLocations: [...path.prevLocations, path.location],
+        });
+      }
+    }
+  });
+  return getAllPathsOutOfMaze(maze, newPossiblePaths, winningPaths);
+}
 // 1)
 // jumpSheep(3);
 // 2)
@@ -160,7 +246,7 @@ let maze = [
   [" ", " ", " ", "*", " ", " ", " "],
   ["*", "*", " ", "*", " ", "*", " "],
   [" ", " ", " ", " ", " ", " ", " "],
-  [" ", "*", "*", "*", "*", "*", "*"],
+  [" ", "*", "*", "*", "*", "*", " "],
   [" ", " ", " ", " ", " ", " ", "e"],
 ];
 let nicksMaze = [
@@ -177,6 +263,6 @@ let nicksMaze = [
   [" ", "*", " ", "*", " ", "*", " ", "*", "*", "*", "*"],
   [" ", " ", " ", "*", " ", "*", " ", " ", " ", " ", "e"],
 ];
-console.log(getOutOfMaze(mySmallMaze));
-console.log(getOutOfMaze(maze));
-console.log(getOutOfMaze(nicksMaze));
+console.log(getAllPathsOutOfMaze(mySmallMaze));
+console.log(getAllPathsOutOfMaze(maze));
+// console.log(getAllPathsOutOfMaze(nicksMaze));
