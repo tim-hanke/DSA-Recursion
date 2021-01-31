@@ -248,6 +248,46 @@ function printOrgChart(orgChart) {
   return recurse(orgChart).join("\n");
 }
 
+function representBinary(num, bin = []) {
+  // if given 0, just return 0
+  if (bin.length === 0 && num === 0) {
+    return "0";
+  }
+
+  // base case - we've fully reduced the number
+  if (num === 0) {
+    return bin.reverse().join("");
+  }
+
+  // get 0 if number is even, 1 if it's odd
+  bin.push(num % 2);
+
+  return representBinary(Math.floor(num / 2), bin);
+}
+
+function representBinary8Bit(num, bin = []) {
+  // if given 0, just return 0
+  // if (bin.length === 0 && num === 0) {
+  //   return "00000000";
+  // }
+
+  // base case - we've fully gone through the number
+  if (num === 0) {
+    // this version pads the results with zeros to simulate a full 8 bits
+    // so, it lookes subjectively 'cooler' :) , but only works up to 255
+    return bin.concat(0, 0, 0, 0, 0, 0, 0, 0).slice(0, 8).reverse().join("");
+  }
+
+  // get 0 if number is even, 1 if it's odd
+  bin.push(num % 2);
+
+  return representBinary8Bit(Math.floor(num / 2), bin);
+}
+
+// ********************************
+// * Test displays for all drills *
+// ********************************
+//
 // 1)
 // jumpSheep(3);
 // 2)
@@ -306,22 +346,39 @@ function printOrgChart(orgChart) {
 // 9)
 // console.log(allAnagrams("east"));
 // 10)
-const orgChart = {
-  Zuckerberg: {
-    Schroepfer: {
-      Bosworth: { Steve: "", Kyle: "", Andra: "" },
-      Zhao: { Richie: "", Sofia: "", Jen: "" },
-    },
-    Schrage: {
-      VanDyck: { Sabrina: "", Michelle: "", Josh: "" },
-      Swain: { Blanch: "", Tom: "", Joe: "" },
-    },
-    Sandberg: {
-      Goler: { Eddie: "", Julie: "", Annie: "" },
-      Hernandez: { Rowi: "", Inga: "", Morgan: "" },
-      Moissinac: { Amy: "", Chuck: "", Vinni: "" },
-      Kelley: { Eric: "", Ana: "", Wes: "" },
-    },
-  },
-};
-console.log(printOrgChart(orgChart));
+// const orgChart = {
+//   Zuckerberg: {
+//     Schroepfer: {
+//       Bosworth: { Steve: "", Kyle: "", Andra: "" },
+//       Zhao: { Richie: "", Sofia: "", Jen: "" },
+//     },
+//     Schrage: {
+//       VanDyck: { Sabrina: "", Michelle: "", Josh: "" },
+//       Swain: { Blanch: "", Tom: "", Joe: "" },
+//     },
+//     Sandberg: {
+//       Goler: { Eddie: "", Julie: "", Annie: "" },
+//       Hernandez: { Rowi: "", Inga: "", Morgan: "" },
+//       Moissinac: { Amy: "", Chuck: "", Vinni: "" },
+//       Kelley: { Eric: "", Ana: "", Wes: "" },
+//     },
+//   },
+// };
+// console.log(printOrgChart(orgChart));
+// 11)
+// console.log("decimal 0 = binary", representBinary(0));
+// console.log("decimal 0 = binary", representBinary8Bit(0));
+// console.log("decimal 1 = binary", representBinary(1));
+// console.log("decimal 1 = binary", representBinary8Bit(1));
+// console.log("decimal 2 = binary", representBinary(2));
+// console.log("decimal 2 = binary", representBinary8Bit(2));
+// console.log("decimal 3 = binary", representBinary(3));
+// console.log("decimal 3 = binary", representBinary8Bit(3));
+// console.log("decimal 4 = binary", representBinary(4));
+// console.log("decimal 4 = binary", representBinary8Bit(4));
+// console.log("decimal 25 = binary", representBinary(25));
+// console.log("decimal 25 = binary", representBinary8Bit(25));
+// console.log("decimal 255 = binary", representBinary(255));
+// console.log("decimal 255 = binary", representBinary8Bit(255));
+// console.log("decimal 256 = binary", representBinary(256));
+// console.log("decimal 256 = binary", representBinary8Bit(256), "yikes");
