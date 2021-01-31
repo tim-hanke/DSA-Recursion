@@ -231,6 +231,23 @@ function allAnagrams(string) {
   anagrammer("", string);
   return Object.keys(results).join("\n");
 }
+
+function printOrgChart(orgChart) {
+  function recurse(orgChart) {
+    let results = [];
+
+    for (let person in orgChart) {
+      results.push(person);
+      if (typeof orgChart[person] === "object") {
+        let inner = recurse(orgChart[person]);
+        results = results.concat(inner.map((i) => `    ${i}`));
+      }
+    }
+    return results;
+  }
+  return recurse(orgChart).join("\n");
+}
+
 // 1)
 // jumpSheep(3);
 // 2)
@@ -287,4 +304,24 @@ function allAnagrams(string) {
 // console.log(getAllPathsOutOfMaze(maze));
 // console.log(getAllPathsOutOfMaze(nicksMaze));
 // 9)
-console.log(allAnagrams("east"));
+// console.log(allAnagrams("east"));
+// 10)
+const orgChart = {
+  Zuckerberg: {
+    Schroepfer: {
+      Bosworth: { Steve: "", Kyle: "", Andra: "" },
+      Zhao: { Richie: "", Sofia: "", Jen: "" },
+    },
+    Schrage: {
+      VanDyck: { Sabrina: "", Michelle: "", Josh: "" },
+      Swain: { Blanch: "", Tom: "", Joe: "" },
+    },
+    Sandberg: {
+      Goler: { Eddie: "", Julie: "", Annie: "" },
+      Hernandez: { Rowi: "", Inga: "", Morgan: "" },
+      Moissinac: { Amy: "", Chuck: "", Vinni: "" },
+      Kelley: { Eric: "", Ana: "", Wes: "" },
+    },
+  },
+};
+console.log(printOrgChart(orgChart));
