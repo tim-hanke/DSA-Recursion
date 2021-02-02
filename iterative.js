@@ -64,6 +64,18 @@ function stringSplit(str, spl) {
   return splitStringArray;
 }
 
-console.log(stringSplit("02/02/2020", "/"));
-console.log(stringSplit("02//02//2020", "/"));
-// console.log(stringSplit("02/02/2020", ""));
+function fibonacciSequence(num) {
+  let sequence = [1, 1];
+  for (let i = 2; i < num; i++) {
+    sequence.push(sequence[i - 1] + sequence[i - 2]);
+  }
+  return sequence;
+}
+
+function factorial(n) {
+  let factorial = 1;
+  for (let i = 2; i <= n; i++) {
+    factorial *= i;
+  }
+  return factorial;
+}

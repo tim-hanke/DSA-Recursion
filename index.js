@@ -302,9 +302,9 @@ function representBinary8Bit(num, bin = []) {
 //   console.log(nthTriangularNumber(i));
 // }
 // 5)
-console.log(stringSplit("02/02/2020", "/"));
-console.log(stringSplit("02//02//2020", "/"));
-console.log(stringSplit("02/02/2020", ""));
+// console.log(stringSplit("02/02/2020", "/"));
+// console.log(stringSplit("02//02//2020", "/"));
+// console.log(stringSplit("02/02/2020", ""));
 // 6)
 // let fibSeqArr = [];
 // for (i = 0; i <= 17; i++) {
