@@ -54,7 +54,7 @@ function stringSplit(str, spl) {
     splIndex = str.indexOf(spl);
   }
 
-  while (str.length > 0) {
+  while (str.includes(spl)) {
     const slice = str.slice(0, splIndex);
     splitStringArray.push(slice);
     str = str.slice(splIndex + spl.length);
@@ -66,4 +66,4 @@ function stringSplit(str, spl) {
 
 console.log(stringSplit("02/02/2020", "/"));
 console.log(stringSplit("02//02//2020", "/"));
-console.log(stringSplit("02/02/2020", ""));
+// console.log(stringSplit("02/02/2020", ""));
